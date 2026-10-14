@@ -1,0 +1,6 @@
+,n_neighbors,p,weights,C,gamma,alpha,hidden_layer_sizes,learning_rate_init,n_estimators,min_samples_leaf,max_features,max_depth,colsample_bytree,learning_rate,min_child_weight,reg_lambda,subsample
+kNN,52,1,distance,,,,,,,,,,,,,,
+SVM,,,,1.30965,0.02705,,,,,,,,,,,,
+ANN,,,,,,0.00311,"(128, 64)",0.00033,,,,,,,,,
+Random Forest,,,,,,,,,500,5,log2,,,,,,
+XGBoost,,,,,,,,,268.0,,,3.0,0.54337,0.03512,8.0,3.69634,0.73234

@@ -1,0 +1,13 @@
+earthengine-api
+geemap
+numpy
+pandas
+scipy
+scikit-learn
+xgboost
+matplotlib
+joblib
+rasterio
+pyproj
+shapely
+jupyter
