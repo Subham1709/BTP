@@ -6,6 +6,8 @@ Subham Agrawal (B23CI1038) · Supervisor: Prof. Susmita Panda · Co-supervisor: 
 Where in the Hamirpur and south Kangra hills (Himachal Pradesh) are landslides most likely, and which roads and people sit on that ground?
 This project answers that with satellite data in Google Earth Engine and five machine-learning classifiers, tested the way a map like this is actually used: on areas the model has never seen.
 
+[![Live app](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://subham-btp-landslide.streamlit.app) **Live app:** https://subham-btp-landslide.streamlit.app (interactive map, model testing, exposure, and a tab that runs the final SVM on one point; code in [`app/`](app/))
+
 ![Final susceptibility map](study_area/Results/fig_susceptibility_final.png)
 
 ## Headline results
