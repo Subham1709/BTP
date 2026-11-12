@@ -108,7 +108,6 @@ CHAPTERS = [
     "9 · What if? Try the model",
     "10 · Limits and conclusions",
 ]
-TIMES = ["0:30", "1:00", "1:30", "2:00", "2:00", "1:00", "1:30", "1:30", "1:30", "1:00", "1:00"]
 
 if "ch" not in st.session_state:
     st.session_state.ch = 0
@@ -122,7 +121,6 @@ with st.sidebar:
     st.markdown("### ⛰️ Landslide story")
     st.radio("Chapter", range(len(CHAPTERS)), format_func=lambda i: CHAPTERS[i], key="ch", label_visibility="collapsed")
     st.divider()
-    notes_on = st.toggle("Speaker notes", value=False, help="Talking points and a time budget for each chapter.")
     st.caption(f"B.Tech project, IIT Jodhpur (2026) · Subham Agrawal · [GitHub]({REPO_URL})")
 
 ch = st.session_state.ch
@@ -134,13 +132,6 @@ for (const sel of ['[data-testid="stMain"]', 'section.main', '[data-testid="stAp
 }}
 window.parent.scrollTo(0, 0);
 </script>""", height=0)
-
-
-def notes(*lines):
-    if notes_on:
-        with st.expander(f"🎤 Speaker notes · about {TIMES[ch]} min", expanded=True):
-            for line in lines:
-                st.markdown(f"- {line}")
 
 
 def nav():
@@ -176,11 +167,6 @@ if ch == 0:
     c[3].metric("Map resolution", "30 m")
     st.image(str(RESULTS / "fig_susceptibility_final.png"),
              caption="Where we end up: the final susceptibility map (tuned SVM, 2024 imagery).")
-    notes(
-        "One line on who I am and the title.",
-        "Ask the question on screen: where is the next landslide most likely, and who is on that ground?",
-        "Say: I'll tell it as the problems I hit and how I solved them, and the numbers will back each step.",
-    )
     nav()
 
 # =====================================================================
@@ -212,11 +198,6 @@ elif ch == 1:
             tooltip=["Season", "Landslides"]).properties(height=330, title="Bhuvan seasonal inventory, all of HP"),
             width="stretch")
     takeaway("landslides in HP are frequent and getting costly, and planners need to know where the risky ground is.")
-    notes(
-        "Point to the 2023 bar: 13,569 slides in one season.",
-        "Define susceptibility = where, not when. (Forecasting is 'when'; that's a different problem.)",
-        "Read the 5 objectives quickly: I'll come back and tick them off in the last chapter.",
-    )
     nav()
 
 # =====================================================================
@@ -244,11 +225,6 @@ elif ch == 2:
     st.image(str(RESULTS / "fig_study_area.png"),
              caption="Study area: 76.28-76.75°E, 31.55-32.03°N, UTM zone 43N. Districts, relief, rivers and mapped landslides.")
     takeaway("I chose the area by the data, not by the map: 4,431 real landslides instead of a handful.")
-    notes(
-        "Switch the radio between the three boxes: total goes 1,995 → 3,214 → 4,431.",
-        "Say: for ML, the number of real examples matters more than anything else.",
-        "Mention 2017 adds very few slides, so in practice the inventory is 2014 + 2023 (I say this again in limits).",
-    )
     nav()
 
 # =====================================================================
@@ -295,12 +271,6 @@ elif ch == 3:
         "from **2009-2025 only**, which still covers all three landslide seasons."
     )
     takeaway("slope separates landslide from non-landslide ground most clearly, and checking the data saved me from a fake rainfall signal.")
-    notes(
-        "Open Slope first: landslides sit on clearly steeper ground. Then Rainfall and Distance to road.",
-        "Explain the 0.5-3 km rule for non-landslide points (Bhuvan maps some areas better than others).",
-        "Rainfall trap: point at the 2009 jump; ERA5 is the cross-check. Good point for the hydrology question.",
-        "If asked about lithology: no digital geology layer in GEE, Bhukosh is toposheet-by-toposheet, so it's a stated limit (chapter 6 shows rock type at slides).",
-    )
     nav()
 
 # =====================================================================
@@ -355,12 +325,6 @@ elif ch == 4:
     else:
         st.info("Predicting a future season is the hardest test. Every model drops, but all still rank 2023 slides well above chance (0.5).")
     takeaway("how you test matters more than which algorithm you pick, so I report the spatial result (Test B) as the honest number.")
-    notes(
-        "Start on A: everyone ~0.92-0.97, XGBoost best. Ask: would you trust this?",
-        "Slide to B: XGBoost drops 0.116 to last. Explain spatial autocorrelation in one sentence.",
-        "Slide to C: training on old seasons, predicting 2023: 0.77-0.82, harder but still well above chance.",
-        "This is the key idea of the project; the intern's 99% on Kedarnath was this trap plus too few samples.",
-    )
     nav()
 
 # =====================================================================
@@ -389,11 +353,6 @@ elif ch == 5:
                 "A smooth decision boundary that carries over well to new areas. All tuned models are within about "
                 "0.05 AUC of each other, so the choice of model matters less than the testing design.")
     takeaway("the tuned SVM is the best on unseen ground (AUC 0.905, Kappa 0.66, 'substantial agreement'), so it makes the final map.")
-    notes(
-        "Point at SVM moving right to 0.905; XGBoost improves but stays lowest.",
-        "Kappa 0.66 = substantial agreement on the Landis and Koch scale.",
-        "If asked why not an ensemble: tuned models are within 0.05 AUC, so gains would be small; possible future work.",
-    )
     nav()
 
 # =====================================================================
@@ -436,11 +395,6 @@ elif ch == 6:
         st.caption("The area got greener (MODIS NDVI ~0.55 → 0.65), and 2023 slides were not concentrated where vegetation was lost. "
                    "At 250 m, the deforestation idea is not supported.")
     takeaway("slope controls where slides happen, soft Shivalik rocks make it worse, and vegetation loss was not the cause at this scale.")
-    notes(
-        "Slope first for both models; rainfall high for XGBoost with the CHIRPS caveat.",
-        "Lithology: be upfront it's not in the model, show the 77% in conglomerate/sandstone (Guha Roy will ask).",
-        "Land-cover change was my hypothesis; I tested it and the data said no. A negative result is still a result.",
-    )
     nav()
 
 # =====================================================================
@@ -476,11 +430,6 @@ elif ch == 7:
     st.caption("Frequency ratio = share of slides in a zone ÷ share of area. It rises from 0.06 to 6.45. These are training "
                "slides, so this is a consistency check; the independent test is the spatial AUC from chapter 5.")
     takeaway(f"High + Very High cover {hv['Area_%'].sum():.1f}% of the area but hold {hv['Landslides_%'].sum():.1f}% of the mapped landslides.")
-    notes(
-        "Zoom in on a red patch: point out it follows steep valley sides and road cuts, not the flat terraces.",
-        "Slider: at 'High' → 19.9% of area, 83.3% of slides; at 'Very High' → 10.4% of area, 67.3% of slides.",
-        "Be honest: 2024 imagery shows fresh 2023 scars as bare ground, so it can raise local scores.",
-    )
     nav()
 
 # =====================================================================
@@ -525,11 +474,6 @@ elif ch == 8:
                              "Maintain drainage; avoid over-steep cuts", "Standard good practice"],
     }).set_index("Zone"))
     takeaway("the risk is mainly to roads: 40 stretches (17.5 km) through High / Very High ground are where slope protection money should go first.")
-    notes(
-        "Roads vs built-up contrast: 10.5% of roads but only 1% of built-up land is in High + VH.",
-        "Move the slider up to 90%: the most critical stretches shrink to a short list a PWD engineer could act on.",
-        "The framework turns zones into actions: this is Objective 5.",
-    )
     nav()
 
 # =====================================================================
@@ -577,11 +521,6 @@ elif ch == 9:
     st.altair_chart((band + line + dot).properties(height=260, title="How probability changes with slope at this spot"), width="stretch")
     st.caption(f"Location {row.lat:.4f}°N, {row.lon:.4f}°E. Probabilities come from the calibrated SVM (CalibratedClassifierCV). Dashed lines are the zone boundaries.")
     takeaway("the model behaves the way slope mechanics says it should: steeper ground, higher probability, all else equal.")
-    notes(
-        "Start from a landslide point (high probability), then drag slope down: watch it fall through the zones.",
-        "Switch to a non-landslide point and increase slope: it climbs.",
-        "Offer the panel: 'Give me a slope and rainfall and I'll show you what the model says.'",
-    )
     nav()
 
 # =====================================================================
@@ -620,9 +559,4 @@ else:
         )
     st.info("**One line to remember:** test the model on ground it has never seen. On a random split XGBoost looked best; "
             "on new ground the tuned SVM was, and its map puts 83% of mapped slides into 20% of the area.")
-    notes(
-        "Tick through the 5 objectives in 30 seconds.",
-        "Limitations before they ask, especially c/φ (Guha Roy) and rainfall data (Swami).",
-        "End on the one line, then: 'Thank you, happy to take questions. I can show any chapter again.'",
-    )
     nav()
